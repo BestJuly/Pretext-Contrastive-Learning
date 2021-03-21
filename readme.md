@@ -2,6 +2,9 @@
 Codes are in refactoring.    
 Currently support PCL(VCP).
 
+For VCOP and 3DRotNet, codes are in refactoring. Coming soon ...
+
+
 ## Highlights
 1. This paper represents a joint optimization method in self-supervised video representation learning, which can achieve high performance without proposing new pretext tasks;
 2. The effectiveness of our proposal is validated by 3 pretext task baselines and 4 different network backbones;
