@@ -19,45 +19,6 @@ import accimage
 ucf101_dataset_path = 'path/to/ucf101/jpegs_256'
 # e.g. '/my/path/to/dataset/ucf101/jpegs_256'
 
-def spatial_rorate(x):
-    # (C X T x H x W)
-    #return torch.rot90(x, random.randint(0,2) + 1, [2, 3])
-    return torch.rot90(x, 1, [2, 3])
-
-def adjacent_shuffle(x):
-    # (C X T x H x W)
-    tmp = torch.chunk(x, 4, dim=1)
-    order = [1,2,3,4]
-    ind1 = random.randint(0,3)
-    ind2 = (ind1 + random.randint(0,2) + 1) % 4
-    order[ind1], order[ind2] = order[ind2], order[ind1]
-    x_new = torch.cat((tmp[order[0]], tmp[order[1]], tmp[order[2]], tmp[order[3]]),1)
-    return x_new
-
-def spatial_permutation(x):
-    c, t, h, w = x.shape
-    hm = h // 2
-    wm = w // 2
-    slices = []
-    slices.append(x[:,:,:hm,:wm]) # A
-    slices.append(x[:,:,:hm,wm:]) # B
-    slices.append(x[:,:,hm:,:wm]) # C
-    slices.append(x[:,:,hm,wm:]) # D
-    order = [1,2,3,4]
-    while order == [1,2,3,4]:
-        random.shuffle(order)
-    #order = [4,2,3,1]
-
-    x_new = torch.cat(torch.cat((slices[order[0]], slices[order[1]]), 3), torch.cat((slices[order[3]], slices[order[4]]), 3), 2)
-    return x_new
-
-
-def options_func(x, label):
-    #options = [0, 1, 2, 3, 4] # origin, rotation, spatial permtation, temporal shuffling, remote clip
-    funcs = [spatial_rorate, spatial_permutation, adjacent_shuffle]
-    func = funcs[label - 1]
-    return func(x)
-
 
 def image_to_np(image):
   image_np = np.empty([image.channels, image.height, image.width], dtype=np.uint8)
@@ -332,10 +293,8 @@ class UCF101ClipRetrievalDataset(Dataset):
 
         return torch.stack(all_clips), torch.stack(all_idx)
 
-class UCF101PCLDataset(Dataset):
-    """UCF101 dataset for video clip order prediction. Generate clips and permutes them on-the-fly.
-    Need the corresponding configuration file exists. 
-    
+class UCF101_PCL_VCP_Dataset(Dataset):
+    """
     Args:
         root_dir (string): Directory with videos and splits.
         train (bool): train split or test split.

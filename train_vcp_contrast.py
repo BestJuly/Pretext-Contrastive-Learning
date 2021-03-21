@@ -15,7 +15,7 @@ from torchvision import transforms
 import torch.optim as optim
 #from tensorboardX import SummaryWriter
 
-from datasets.ucf101 import UCF101PCLDataset
+from datasets.ucf101 import UCF101_PCL_VCP_Dataset as UCF101PCLDataset
 from models.r3d import R3DNet
 from models.vcopn import VCPN
 
