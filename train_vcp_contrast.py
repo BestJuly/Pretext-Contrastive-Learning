@@ -13,7 +13,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, random_split
 from torchvision import transforms
 import torch.optim as optim
-#from tensorboardX import SummaryWriter
+from tensorboardX import SummaryWriter
 
 from datasets.ucf101 import UCF101_PCL_VCP_Dataset as UCF101PCLDataset
 from models.r3d import R3DNet
@@ -284,10 +284,10 @@ if __name__ == '__main__':
             log_dir = os.path.join(args.log, exp_name)
             print(exp_name)
          
-        #writer = SummaryWriter(log_dir)
-        writer = None
-        if not os.path.exists(log_dir):
-            os.makedirs(log_dir)
+        writer = SummaryWriter(log_dir)
+        # writer = None
+        #if not os.path.exists(log_dir):
+        #    os.makedirs(log_dir)
 
         # data
         ## resdual clps

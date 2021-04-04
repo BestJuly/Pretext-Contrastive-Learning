@@ -84,40 +84,40 @@ Methods in this table do not contain those using other data modalities such as s
 
 Method |  Date | Pre-train | ClipSize | Network | UCF  | HMDB   
 --- | --- | --- | --- | --- | --- | --- |
-OPN      | 2017   | UCF    | $227^2$               | VGG     | 59.6 | 23.8  
-DPC          | 2019   | K400   | $16\times224^2$     | R3D-34  | 75.7 | 35.7  
-CBT         | 2019   | K600+  | $16\times112^2$     | S3D     | 79.5 | 44.6  
+OPN      | 2017   | UCF    | 227x227               | VGG     | 59.6 | 23.8  
+DPC          | 2019   | K400   | 16x224x224     | R3D-34  | 75.7 | 35.7  
+CBT         | 2019   | K600+  | 16x112x112     | S3D     | 79.5 | 44.6  
 SpeedNet  | 2020   | K400   | $64\times224^2$     | S3D-G   | 81.1 | 48.8  
 MemDPC         | 2020   | K400   | $40\times224^2$     | R-2D3D  | 78.1 | 41.2  
-3D-RotNet       | 2018   | K400   | $16\times112^2$     | R3D-18  | 62.9 | 33.7  
-ST-Puzzle        | 2019   | K400   | $16\times112^2$     | R3D-18  | 65.8 | 33.7   
+3D-RotNet       | 2018   | K400   | 16x112x112     | R3D-18  | 62.9 | 33.7  
+ST-Puzzle        | 2019   | K400   | 16x112x112     | R3D-18  | 65.8 | 33.7   
 DPC             | 2019   | K400   | $16\times128^2$     | R3D-18  | 68.2 | 34.5  
-RTT           | 2020   | UCF   | $16\times112^2$     | R3D-18  | 77.3 | 47.5  
-RTT           | 2020   | K400   | $16\times112^2$     | R3D-18  | 79.3 | **49.8**  
-**PCL (3DRotNet)** | | UCF    | $16\times112^2$     | R3D-18  | 82.8 | 47.2  
-**PCL (VCP)** | | UCF         | $16\times112^2$     | R3D-18  | 83.4 | 48.8  
-**PCL (VCP)** | | K400         | $16\times112^2$     | R3D-18  | **85.6** | 48.0  
-VCOP              | 2019   | UCF    | $16\times112^2$     | R3D     | 64.9 | 29.5  
-VCP             | 2020   | UCF    | $16\times112^2$     | R3D     | 66.0 | 31.5  
-PRP             | 2020   | UCF    | $16\times112^2$     | R3D     | 66.5 | 29.7  
-IIC    | 2020   | UCF    | $16\times112^2$     | R3D     | 74.4 | 38.3  
-**PCL (VCOP)** | | UCF        | $16\times112^2$     | R3D     | 78.2 | 40.5
-**PCL (VCP)** | | UCF         | $16\times112^2$     | R3D     | **81.1** | **45.0**  
-VCOP              | 2019   | UCF    | $16\times112^2$     | C3D     | 65.6 | 28.4  
-VCP             | 2020   | UCF    | $16\times112^2$     | C3D     | 68.5 | 32.5  
-PRP             | 2020   | UCF    | $16\times112^2$     | C3D     | 69.1 | 34.5  
-RTT           | 2020   | K400   | $16\times112^2$     | C3D     | 69.9 | 39.6  
-**PCL (VCOP)** | | UCF        | $16\times112^2$     | C3D     | 79.8 | 41.8  
-**PCL (VCP)** | | UCF         | $16\times112^2$     | C3D     | **81.4** | **45.2**  
-VCOP              | 2019   | UCF    | $16\times112^2$     | R(2+1)D | 72.4 | 30.9  
-VCP             | 2020   | UCF    | $16\times112^2$     | R(2+1)D | 66.3 | 32.2  
-PRP             | 2020   | UCF    | $16\times112^2$     | R(2+1)D | 72.1 | 35.0  
-RTT           | 2020   | UCF    | $16\times112^2$     | R(2+1)D | 81.6 | 46.4  
-PacePred        | 2020   | UCF    | $16\times112^2$     | R(2+1)D | 75.9 | 35.9  
-PacePred        | 2020   | K400   | $16\times112^2$     | R(2+1)D | 77.1 | 36.6  
-**PCL (VCOP)** | | UCF         | $16\times112^2$     | R(2+1)D     | 79.2 | 41.6  
-**PCL (VCP)** | | UCF         | $16\times112^2$     | R(2+1)D     | 79.9 | 45.6  
-**PCL (VCP)** | | K400         | $16\times112^2$     | R(2+1)D     | **85.7** | **47.4**  
+RTT           | 2020   | UCF   | 16x112x112     | R3D-18  | 77.3 | 47.5  
+RTT           | 2020   | K400   | 16x112x112     | R3D-18  | 79.3 | **49.8**  
+**PCL (3DRotNet)** | | UCF    | 16x112x112     | R3D-18  | 82.8 | 47.2  
+**PCL (VCP)** | | UCF         | 16x112x112     | R3D-18  | 83.4 | 48.8  
+**PCL (VCP)** | | K400         | 16x112x112     | R3D-18  | **85.6** | 48.0  
+VCOP              | 2019   | UCF    | 16x112x112     | R3D     | 64.9 | 29.5  
+VCP             | 2020   | UCF    | 16x112x112     | R3D     | 66.0 | 31.5  
+PRP             | 2020   | UCF    | 16x112x112     | R3D     | 66.5 | 29.7  
+IIC    | 2020   | UCF    | 16x112x112     | R3D     | 74.4 | 38.3  
+**PCL (VCOP)** | | UCF        | 16x112x112     | R3D     | 78.2 | 40.5
+**PCL (VCP)** | | UCF         | 16x112x112     | R3D     | **81.1** | **45.0**  
+VCOP              | 2019   | UCF    | 16x112x112     | C3D     | 65.6 | 28.4  
+VCP             | 2020   | UCF    | 16x112x112     | C3D     | 68.5 | 32.5  
+PRP             | 2020   | UCF    | 16x112x112     | C3D     | 69.1 | 34.5  
+RTT           | 2020   | K400   | 16x112x112     | C3D     | 69.9 | 39.6  
+**PCL (VCOP)** | | UCF        | 16x112x112     | C3D     | 79.8 | 41.8  
+**PCL (VCP)** | | UCF         | 16x112x112     | C3D     | **81.4** | **45.2**  
+VCOP              | 2019   | UCF    | 16x112x112     | R(2+1)D | 72.4 | 30.9  
+VCP             | 2020   | UCF    | 16x112x112     | R(2+1)D | 66.3 | 32.2  
+PRP             | 2020   | UCF    | 16x112x112     | R(2+1)D | 72.1 | 35.0  
+RTT           | 2020   | UCF    | 16x112x112     | R(2+1)D | 81.6 | 46.4  
+PacePred        | 2020   | UCF    | 16x112x112     | R(2+1)D | 75.9 | 35.9  
+PacePred        | 2020   | K400   | 16x112x112     | R(2+1)D | 77.1 | 36.6  
+**PCL (VCOP)** | | UCF         | 16x112x112     | R(2+1)D     | 79.2 | 41.6  
+**PCL (VCP)** | | UCF         | 16x112x112     | R(2+1)D     | 79.9 | 45.6  
+**PCL (VCP)** | | K400         | 16x112x112     | R(2+1)D     | **85.7** | **47.4**  
 
 
 ## Citation
@@ -126,9 +126,8 @@ If you find our work helpful for your research, please consider citing the paper
 @article{tao2021pcl,
     title={Pretext-Contrastive Learning: Toward Good Practices in Self-supervised Video Representation Leaning},
     author={Li Tao and Xueting Wang and Toshihiko Yamasaki},
-    journal={arXiv preprint arXiv:xxx},
-    year={2021},
-    eprint={xxx},
+    journal={arXiv preprint arXiv:2010.15464},
+    year={2021}
 }
 ```
 
