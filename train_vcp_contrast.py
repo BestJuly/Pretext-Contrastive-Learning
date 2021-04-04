@@ -291,7 +291,7 @@ if __name__ == '__main__':
 
         # data
         ## resdual clps
-        if modality == 'rgb':
+        if args.modality == 'rgb':
             print('Use normal RGB clips for training')
         else:
             print('[New Feature]: use residual clips')
