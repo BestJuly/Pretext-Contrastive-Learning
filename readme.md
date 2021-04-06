@@ -126,7 +126,7 @@ If you find our work helpful for your research, please consider citing the paper
 ```
 @article{tao2021pcl,
     title={Pretext-Contrastive Learning: Toward Good Practices in Self-supervised Video Representation Leaning},
-    author={Li Tao and Xueting Wang and Toshihiko Yamasaki},
+    author={Tao, Li and Wang, Xueting and Yamasaki, Toshihiko},
     journal={arXiv preprint arXiv:2010.15464},
     year={2021}
 }
