@@ -1,8 +1,9 @@
 # Pretext-Contrastive Learning: Toward Good Practices in Self-supervised Video Representation Leaning
-Codes are in refactoring.    
+Codes are in refactoring.   
 
-Currently support PCL(VCP).
-For VCOP and 3DRotNet, codes are in refactoring. Coming soon ...
+Currently support PCL(VCP), the performance after refactoring is in evaluation ...
+
+For VCOP and 3DRotNet, codes are still in refactoring. Coming soon ...
 
 
 ## Highlights
@@ -91,7 +92,7 @@ SpeedNet  | 2020   | K400   | 64x224x224     | S3D-G   | 81.1 | 48.8
 MemDPC         | 2020   | K400   | 40x224x224     | R-2D3D  | 78.1 | 41.2  
 3D-RotNet       | 2018   | K400   | 16x112x112     | R3D-18  | 62.9 | 33.7  
 ST-Puzzle        | 2019   | K400   | 16x112x112     | R3D-18  | 65.8 | 33.7   
-DPC             | 2019   | K400   | $16x128x128     | R3D-18  | 68.2 | 34.5  
+DPC             | 2019   | K400   | 16x128x128     | R3D-18  | 68.2 | 34.5  
 RTT           | 2020   | UCF   | 16x112x112     | R3D-18  | 77.3 | 47.5  
 RTT           | 2020   | K400   | 16x112x112     | R3D-18  | 79.3 | **49.8**  
 **PCL (3DRotNet)** | | UCF    | 16x112x112     | R3D-18  | 82.8 | 47.2  

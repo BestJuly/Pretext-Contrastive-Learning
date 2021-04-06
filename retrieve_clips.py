@@ -177,7 +177,7 @@ def topk_retrieval(args):
 def parse_args():
     parser = argparse.ArgumentParser(description='Frame Retrieval Experiment')
     parser.add_argument('--cl', type=int, default=16, help='clip length')
-    parser.add_argument('--model', type=str, default='r3d', help='c3d/r3d/r21d')
+    parser.add_argument('--model', type=str, default='r3d', help='c3d/r3d/r21d/r18')
     parser.add_argument('--id', type=str, default='r3d', help='train ID to distinguish with each other')
     parser.add_argument('--dataset', type=str, default='ucf101', help='ucf101/hmdb51')
     parser.add_argument('--feature_dir', type=str, default='features/', help='dir to store feature.npy')
@@ -194,6 +194,7 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
+    args.id = "{}_{}".format(args.dataset, args.model)
     args.feature_dir = os.path.join(args.feature_dir, args.id)
     print(vars(args))
 

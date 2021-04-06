@@ -16,8 +16,12 @@ import torch.optim as optim
 from tensorboardX import SummaryWriter
 
 from datasets.ucf101 import UCF101_PCL_VCP_Dataset as UCF101PCLDataset
+
+from models.c3d import C3D
 from models.r3d import R3DNet
-from models.vcopn import VCPN
+from models.r21d import R2Plus1DNet
+import torchvision # For R18
+from models.pcl_net import PCLNet
 
 from lib.NCEAverage import NCEAverage_ori
 from lib.NCECriterion import NCESoftmaxLoss
@@ -110,9 +114,9 @@ def train(args, model, criterion, optimizer, device, train_dataloader, writer, e
     for i, data in enumerate(train_dataloader,1):
         # get inputs
         tuple_clips, targets, index = data
-        inputs = tuple_clips.to(device)
-        targets = targets.to(device)
-        index = index.to(device)
+        inputs = tuple_clips.cuda()
+        targets = targets.cuda()
+        index = index.cuda()
         inputs = preprocess(inputs, targets)
         # zero the parameter gradients
         optimizer.zero_grad()
@@ -164,9 +168,9 @@ def validate(args, model, criterion, device, val_dataloader, writer, epoch):
     for i, data in enumerate(val_dataloader):
         # get inputs
         tuple_clips, targets, index = data
-        inputs = tuple_clips.to(device)
-        targets = targets.to(device)
-        index = index.to(device)
+        inputs = tuple_clips.cuda()
+        targets = targets.cuda()
+        index = index.cuda()
         inputs = preprocess(inputs, targets)
         # forward
         outputs, f1, f3 = model(inputs) # return logits here
@@ -194,9 +198,9 @@ def test(args, model, criterion, device, test_dataloader):
     for i, data in enumerate(test_dataloader, 1):
         # get inputs
         tuple_clips, targets, index = data
-        inputs = tuple_clips.to(device)
-        targets = targets.to(device)
-        index = index.to(device)
+        inputs = tuple_clips.cuda()
+        targets = targets.cuda()
+        index = index.cuda()
         inputs = preprocess(inputs, targets)
         # forward
         outputs, f1, f3 = model(inputs)
@@ -263,9 +267,18 @@ if __name__ == '__main__':
     torch.cuda.manual_seed_all(seed)
 
     ########### model ##############
-    if args.model == 'r3d':
+    backbone_feature_size = 512
+    if args.model == 'c3d':
+        base = C3D(with_classifier=False)
+    elif args.model == 'r3d':
         base = R3DNet(layer_sizes=(1,1,1,1), with_classifier=False)
-    vcpn = VCPN(base_network=base, feature_size=512, tuple_len=args.tl, modality=args.modality, proj_dim=args.proj_dim, head=args.head).to(device)
+    elif args.model == 'r21d':   
+        base = R2Plus1DNet(layer_sizes=(1,1,1,1), with_classifier=False)
+    elif args.model == 'r18':
+        torchmodel = torchvision.models.video.r3d_18(pretrained=False, progress=True)
+        base = torch.nn.Sequential(*(list(torchmodel.children())[:-1]))
+    
+    pcl_net = PCLNet(base_network=base, feature_size=backbone_feature_size, tuple_len=args.tl, modality=args.modality, proj_dim=args.proj_dim, head=args.head).cuda()
 
     if args.head == True:
         head_msg = 'MoCo'
@@ -274,7 +287,7 @@ if __name__ == '__main__':
 
     if args.mode == 'train':  ########### Train #############
         if args.ckpt:  # resume training
-            vcpn.load_state_dict(torch.load(args.ckpt))
+            pcl_net.load_state_dict(torch.load(args.ckpt))
             log_dir = os.path.dirname(args.ckpt)
         else:
             if args.desp:
@@ -330,37 +343,37 @@ if __name__ == '__main__':
 
         ###
         # add contrast loss params
-        contrast = NCEAverage_ori(args.proj_dim, len(train_dataset), 1024, 0.07, 0.5, True).to(device)
-        criterion_view1 = NCESoftmaxLoss().to(device)
-        criterion_view2 = NCESoftmaxLoss().to(device)
+        contrast = NCEAverage_ori(args.proj_dim, len(train_dataset), 1024, 0.07, 0.5, True).cuda()
+        criterion_view1 = NCESoftmaxLoss().cuda()
+        criterion_view2 = NCESoftmaxLoss().cuda()
 
         ### loss funciton, optimizer and scheduler ###
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(vcpn.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.wd)
+        optimizer = optim.SGD(pcl_net.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.wd)
         scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', min_lr=1e-5, patience=50, factor=0.1)
 
         prev_best_val_loss = float('inf')
         prev_best_model_path = None
         for epoch in range(args.start_epoch, args.start_epoch+args.epochs):
             time_start = time.time()
-            train(args, vcpn, criterion, optimizer, device, train_dataloader, writer, epoch, contrast, criterion_view1, criterion_view2)
-            val_loss = validate(args, vcpn, criterion, device, val_dataloader, writer, epoch)
+            train(args, pcl_net, criterion, optimizer, device, train_dataloader, writer, epoch, contrast, criterion_view1, criterion_view2)
+            val_loss = validate(args, pcl_net, criterion, device, val_dataloader, writer, epoch)
             print('[{0:3d}/{1:3d}]Epoch time: {2:.2f} s.'.format(epoch, args.epochs, time.time() - time_start))
             scheduler.step(val_loss)         
-            # save model every 20 epoches
+            # save model every xxx epoches
             if epoch % 50 == 0:
-                torch.save(vcpn.state_dict(), os.path.join(log_dir, 'model_{}.pt'.format(epoch)))
+                torch.save(pcl_net.state_dict(), os.path.join(log_dir, 'model_{}.pt'.format(epoch)))
             # save model for the best val
             if val_loss < prev_best_val_loss:
                 model_path = os.path.join(log_dir, 'best_model_{}.pt'.format(epoch))
-                torch.save(vcpn.state_dict(), model_path)
+                torch.save(pcl_net.state_dict(), model_path)
                 prev_best_val_loss = val_loss
                 if prev_best_model_path:
                     os.remove(prev_best_model_path)
                 prev_best_model_path = model_path
 
     elif args.mode == 'test':  ########### Test #############
-        vcpn.load_state_dict(torch.load(args.ckpt))
+        pcl_net.load_state_dict(torch.load(args.ckpt))
         test_transforms = transforms.Compose([
             transforms.Resize((128, 171)),
             transforms.CenterCrop(112),
@@ -371,4 +384,4 @@ if __name__ == '__main__':
                                 num_workers=args.workers, pin_memory=True)
         print('TEST video number: {}.'.format(len(test_dataset)))
         criterion = nn.CrossEntropyLoss()
-        test(args, vcpn, criterion, device, test_dataloader)
+        test(args, pcl_net, criterion, device, test_dataloader)

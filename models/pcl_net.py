@@ -58,14 +58,13 @@ class MoCoHead(nn.Module):
         return x
 
 
-class VCPN(nn.Module):
-    """Video clip order prediction with PFE (Pairwire Feature Extraction), the same as OPN."""
+class PCLNet(nn.Module):
     def __init__(self, base_network, feature_size, tuple_len=3, modality='rgb', class_num=5, proj_dim=512, head=False):
         """
         Args:
             feature_size (int): 512
         """
-        super(VCPN, self).__init__()
+        super(PCLNet, self).__init__()
 
         self.base_network = base_network
         self.feature_size = feature_size
