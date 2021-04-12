@@ -22,6 +22,7 @@ from sklearn.metrics.pairwise import cosine_distances, euclidean_distances
 from datasets.ucf101 import UCF101ClipRetrievalDataset
 from datasets.hmdb51 import HMDB51ClipRetrievalDataset
 from models.r3d import R3DNet
+from models.network import R18
 
 import ast
 
@@ -34,6 +35,15 @@ def load_pretrained_weights(ckpt_path):
             name = name[name.find('base_network')+13:]
             adjusted_weights[name] = params
             #print('Pretrained weight name: [{}]'.format(name))
+    return adjusted_weights
+
+
+def adjust_weights(ckpt_path):
+    """load pretrained weights and adjust params name."""
+    adjusted_weights = {}
+    pretrained_weights = torch.load(ckpt_path)
+    for name, params in pretrained_weights.items():
+        adjusted_weights['base_network.' + name] = params
     return adjusted_weights
 
 
@@ -53,12 +63,17 @@ def extract_feature(args):
     ########### model ##############
     if args.model == 'r3d':
         model = R3DNet(layer_sizes=(1,1,1,1), with_classifier=False, return_conv=True).to(device)
+    elif args.model == 'r18':
+        model = R18(with_classifier=False).to(device)
 
 
     if args.ckpt:
-        pretrained_weights = load_pretrained_weights(args.ckpt)        
-        #model.load_state_dict(pretrained_weights, strict=True) # This is to check whether loaded successfully
-        model.load_state_dict(pretrained_weights, strict=False)
+        if args.model == 'r3d':
+            pretrained_weights = load_pretrained_weights(args.ckpt)        
+            model.load_state_dict(pretrained_weights, strict=False) # Set True to check whether loaded successfully
+        else: # for r18
+            pretrained_weights = torch.load(args.ckpt)
+            model.load_state_dict(pretrained_weights, strict=False)
     model.eval()
     torch.set_grad_enabled(False)
     ### Exract for train split ###
