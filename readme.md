@@ -1,4 +1,6 @@
 # Pretext-Contrastive Learning: Toward Good Practices in Self-supervised Video Representation Leaning
+> [arXiv paper](https://arxiv.org/pdf/2010.15464.pdf)
+
 Codes are in refactoring.   
 
 Currently support PCL(VCP), the performance after refactoring is in evaluation ...
