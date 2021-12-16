@@ -1,11 +1,10 @@
 # Pretext-Contrastive Learning: Toward Good Practices in Self-supervised Video Representation Leaning
 > [arXiv paper](https://arxiv.org/pdf/2010.15464.pdf)
 
-Codes are in refactoring.   
+Currently support PCL(VCP). For VCOP and 3DRotNet, codes are still in refactoring. 
 
-Currently support PCL(VCP), the performance after refactoring is in evaluation ...
-
-For VCOP and 3DRotNet, codes are still in refactoring. Coming soon ...
+A sentence to conclude this paper:
+**if you are developing novel pretext task-based methods for video self-supervised learning, do not hesitate to combine contrastive learning loss, which is simple to use and can boost the performance.**
 
 
 ## Highlights
